@@ -30,7 +30,7 @@ defaults:
 
 env:
   DOCKER_BUILDKIT: 1
-  K8S_VERSION: 1.20.0
+  K8S_VERSION: 1.20.2
   K8S_TIMEOUT: 75s
   HELM_CHART_DIR: deployments/helm-chart
   HELM_CHART_VERSION: 0.0.0-edge
@@ -224,55 +224,46 @@ jobs:
       matrix:
         include:
           - os: ubuntu-18.04
-            file: build/Dockerfile
             image: nginx-ingress
             tag: ${{ github.sha }}
             marker: 'ingresses'
             type: oss
           - os: ubuntu-18.04
-            file: build/Dockerfile
             image: nginx-ingress
             tag: ${{ github.sha }}
             marker: 'vsr'
             type: oss
           - os: ubuntu-18.04
-            file: build/Dockerfile
             image: nginx-ingress
             tag: ${{ github.sha }}
             marker: 'vs'
             type: oss
           - os: ubuntu-18.04
-            file: build/Dockerfile
             image: nginx-ingress
             tag: ${{ github.sha }}
             marker: 'policies'
             type: oss
           - os: ubuntu-18.04
-            file: build/Dockerfile
             image: nginx-plus-ingress
             tag: ${{ github.sha }}
             marker: 'ingresses'
             type: plus
           - os: ubuntu-18.04
-            file: build/Dockerfile
             image: nginx-plus-ingress
             tag: ${{ github.sha }}
             marker: 'vsr'
             type: plus
           - os: ubuntu-18.04
-            file: build/Dockerfile
             image: nginx-plus-ingress
             tag: ${{ github.sha }}
             marker: 'vs'
             type: plus
           - os: ubuntu-18.04
-            file: build/Dockerfile
             image: nginx-plus-ingress
             tag: ${{ github.sha }}
             marker: 'policies'
             type: plus
           - os: ubuntu-18.04
-            file: build/Dockerfile
             image: nginx-plus-ingress
             tag: ${{ github.sha }}-ap
             marker: 'appprotect'
@@ -299,7 +290,7 @@ jobs:
       - name: Build ${{ matrix.image }} Container
         uses: docker/build-push-action@v2
         with:
-          file: ${{ matrix.file }}
+          file: build/Dockerfile
           context: '.'
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
@@ -312,7 +303,7 @@ jobs:
       - name: Build Plus Docker Image ${{ matrix.image }}
         uses: docker/build-push-action@v2
         with:
-          file: ${{ matrix.file }}
+          file: build/Dockerfile
           context: '.'
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
@@ -329,7 +320,7 @@ jobs:
       - name: Build AP Docker Image ${{ matrix.image }}
         uses: docker/build-push-action@v2
         with:
-          file: ${{ matrix.file }}
+          file: build/Dockerfile
           context: '.'
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
@@ -412,12 +403,10 @@ jobs:
       matrix:
         include:
           - os: ubuntu-18.04
-            file: build/Dockerfile
             image: nginx-ingress
             tag: ${{ github.sha }}
             type: oss
           - os: ubuntu-18.04
-            file: build/Dockerfile
             image: nginx-plus-ingress
             tag: ${{ github.sha }}
             type: plus
@@ -448,7 +437,7 @@ jobs:
       - name: Build Docker Image ${{ matrix.image }}
         uses: docker/build-push-action@v2
         with:
-          file: ${{ matrix.file }}
+          file: build/Dockerfile
           context: '.'
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
