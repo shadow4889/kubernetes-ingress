@@ -42,7 +42,7 @@ jobs:
 
   binary:
     name: Build Binary
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -73,7 +73,7 @@ jobs:
 
   unit-tests:
     name: Unit Tests
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -94,55 +94,55 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             file: build/Dockerfile
             context: '.'
             target: local
             image: debian
             type: oss
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             file: build/Dockerfile
             context: '.'
             target: local
             image: alpine
             type: oss
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             file: build/Dockerfile
             context: '.'
             target: local
             image: debian-plus
             type: plus
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             file: build/Dockerfile
             context: '.'
             target: local
             image: opentracing
             type: oss
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             file: build/Dockerfile
             context: '.'
             target: local
             image: opentracing-plus
             type: plus
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             file: build/Dockerfile
             context: '.'
             target: local
             image: openshift
             type: oss
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             file: build/Dockerfile
             context: '.'
             target: local
             image: openshift-plus
             type: plus
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             file: build/Dockerfile
             context: '.'
             target: local
             image: debian-plus-ap
             type: plus-ap
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             file: build/DockerfileWithAppProtectForPlusForOpenShift
             context: '.'
             target: local
@@ -223,47 +223,47 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             image: nginx-ingress
             tag: ${{ github.sha }}
             marker: 'ingresses'
             type: oss
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             image: nginx-ingress
             tag: ${{ github.sha }}
             marker: 'vsr'
             type: oss
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             image: nginx-ingress
             tag: ${{ github.sha }}
             marker: 'vs'
             type: oss
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             image: nginx-ingress
             tag: ${{ github.sha }}
             marker: 'policies'
             type: oss
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             image: nginx-plus-ingress
             tag: ${{ github.sha }}
             marker: 'ingresses'
             type: plus
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             image: nginx-plus-ingress
             tag: ${{ github.sha }}
             marker: 'vsr'
             type: plus
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             image: nginx-plus-ingress
             tag: ${{ github.sha }}
             marker: 'vs'
             type: plus
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             image: nginx-plus-ingress
             tag: ${{ github.sha }}
             marker: 'policies'
             type: plus
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             image: nginx-plus-ingress
             tag: ${{ github.sha }}-ap
             marker: 'appprotect'
@@ -402,11 +402,11 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             image: nginx-ingress
             tag: ${{ github.sha }}
             type: oss
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             image: nginx-plus-ingress
             tag: ${{ github.sha }}
             type: plus
@@ -499,15 +499,15 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             file: build/Dockerfile
             image: nginx-ingress
             tag: edge
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             file: build/DockerfileForAlpine
             image: nginx-ingress
             tag: edge-alpine
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             file: build/openshift/Dockerfile
             image: nginx-ingress
             tag: edge-ubi
@@ -548,7 +548,7 @@ jobs:
 
   package-helm:
     name: Package Helm Chart
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     needs: [smoke-tests, helm-tests, release-docker]
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
@@ -569,7 +569,7 @@ jobs:
 
   release-helm:
     name: Release Helm Chart
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     needs: [smoke-tests, helm-tests, release-docker, package-helm]
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     steps:
@@ -596,7 +596,7 @@ jobs:
 
   notify:
     name: Notify
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     needs: release-helm
     if: always() && github.ref == 'refs/heads/master'
     steps:
