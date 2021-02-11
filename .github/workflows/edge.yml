@@ -306,6 +306,8 @@ jobs:
           target: local
           tags: ${{ matrix.image }}:${{ matrix.tag }}
           load: true
+          build-args: |
+            BUILD_OS=debian
         if: matrix.type == 'oss'
       - name: Build Plus Docker Image ${{ matrix.image }}
         uses: docker/build-push-action@v2
@@ -321,7 +323,8 @@ jobs:
             "nginx-repo.crt=${{ secrets.KIC_NGINX_CRT }}"
             "nginx-repo.key=${{ secrets.KIC_NGINX_KEY }}"
           build-args: |
-            BUILD_OS=debian
+            BUILD_OS=debian-plus
+            PLUS=-plus
         if: matrix.type == 'plus'
       - name: Build AP Docker Image ${{ matrix.image }}
         uses: docker/build-push-action@v2
@@ -337,7 +340,7 @@ jobs:
             "nginx-repo.crt=${{ secrets.KIC_NGINX_AP_CRT }}"
             "nginx-repo.key=${{ secrets.KIC_NGINX_AP_KEY }}"
           build-args: |
-            BUILD_OS=debian-plus
+            BUILD_OS=debian-plus-ap
             PLUS=-plus
         if: matrix.type == 'plus-ap'
       - name: Build Test-Runner Container
