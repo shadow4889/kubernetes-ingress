@@ -4,7 +4,7 @@ PREFIX = nginx/nginx-ingress
 GOFLAGS ?= -mod=vendor
 TARGET ?= local
 
-DOCKER_BUILD_OPTIONS = --build-arg IC_VERSION=$(VERSION)-$(GIT_COMMIT) --build-arg GIT_COMMIT=$(GIT_COMMIT) --build-arg VERSION=$(VERSION)
+override DOCKER_BUILD_OPTIONS += --build-arg IC_VERSION=$(VERSION)-$(GIT_COMMIT) --build-arg GIT_COMMIT=$(GIT_COMMIT) --build-arg VERSION=$(VERSION)
 DOCKER_CMD = docker build $(DOCKER_BUILD_OPTIONS) --target $(TARGET) -f build/Dockerfile -t $(PREFIX):$(TAG) .
 
 GIT_COMMIT = $(shell git rev-parse --short HEAD)
