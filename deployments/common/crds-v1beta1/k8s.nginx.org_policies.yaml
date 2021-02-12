@@ -165,7 +165,6 @@ spec:
               type: string
             state:
               type: string
-
   version: v1
   versions:
     - name: v1
