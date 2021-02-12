@@ -47,7 +47,9 @@ certificate-and-key: ## Create default cert and key
 
 .PHONY: build
 build: ## Build Ingress Controller binary
+	@docker -v
 ifeq (${TARGET},local)
+	@go version
 	CGO_ENABLED=0 GO111MODULE=on GOFLAGS='$(GOFLAGS)' GOOS=linux go build -installsuffix cgo -ldflags "-w -X main.version=${VERSION} -X main.gitCommit=${GIT_COMMIT}" -o nginx-ingress github.com/nginxinc/kubernetes-ingress/cmd/nginx-ingress
 endif
 
@@ -89,6 +91,7 @@ debian-image-opentracing-plus: build ## Create Docker image for Ingress Controll
 
 .PHONY: all-images ## Create all the Docker images for Ingress Controller
 all-images: debian-image alpine-image debian-image-plus openshift-image debian-image-opentracing debian-image-opentracing-plus openshift-image-plus openshift-image-nap-plus debian-image-nap-plus
+
 .PHONY: push
 push: ## Docker push to $PREFIX and $TAG
 	docker push $(PREFIX):$(TAG)

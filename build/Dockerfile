@@ -56,7 +56,7 @@ RUN --mount=type=secret,id=nginx-repo.crt,dst=/etc/ssl/nginx/nginx-repo.crt,mode
 	&& apt-get purge --auto-remove -y apt-transport-https \
 	&& rm -rf /var/lib/apt/lists/*
 
-COPY internal/configs/oidc/* /etc/nginx/oidc/
+COPY --chown=nginx:0 internal/configs/oidc/* /etc/nginx/oidc/
 
 
 ############################################# Base image for Debian with NGINX Plus and App Protect #############################################
@@ -123,7 +123,7 @@ RUN set -x \
 
 
 RUN mkdir licenses
-COPY LICENSE /licenses
+COPY --chown=nginx:0 LICENSE /licenses
 
 
 ############################################# Base image for Openshift OSS #############################################
@@ -294,12 +294,12 @@ RUN CGO_ENABLED=0 GOFLAGS='-mod=vendor' \
 
 ############################################# Create image with nginx-ingress built in #############################################
 FROM files AS container
-COPY --from=builder /nginx-ingress /
+COPY --chown=nginx:0 --from=builder /nginx-ingress /
 
 USER nginx
 
 ############################################# Create image with nginx-ingress built locally #############################################
 FROM files AS local
-COPY nginx-ingress /
+COPY --chown=nginx:0 nginx-ingress /
 
 USER nginx
