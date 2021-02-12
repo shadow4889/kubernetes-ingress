@@ -1418,7 +1418,6 @@ func (cnf *Configurator) DeleteAppProtectLogConf(logConfNamespaceName string, in
 		allWarnings.Add(warnings)
 	}
 
-
 	if err := cnf.nginxManager.Reload(nginx.ReloadForOtherUpdate); err != nil {
 		return allWarnings, fmt.Errorf("Error when reloading NGINX when removing App Protect Log Configuration: %v", err)
 	}
